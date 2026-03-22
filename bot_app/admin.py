@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import TelegramUser
 
-# Register your models here.
+@admin.register(TelegramUser)
+class TelegramUserAdmin(admin.ModelAdmin):
+    list_display = ('telegram_id', 'username', 'user', 'created_at')
+    list_filter = ('created_at',)
+    search_fields = ('telegram_id', 'username')

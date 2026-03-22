@@ -1,10 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class TelegramUser(models.Model):
-    """
-    Модель для связи Telegram-пользователя с Django-пользователем
-    """
+class TelegramUser(models.Model):   
     telegram_id = models.BigIntegerField(
         unique=True,
         verbose_name="Telegram ID"
@@ -14,7 +11,7 @@ class TelegramUser(models.Model):
         blank=True,
         null=True,
         verbose_name="Имя в Telegram"
-    )
+    )   
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
