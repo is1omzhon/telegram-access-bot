@@ -30,3 +30,46 @@ class TelegramUser(models.Model):
     class Meta:
         verbose_name = "Telegram-пользователь"
         verbose_name_plural = "Telegram-пользователи"
+
+class AccessRequest(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Ожидает'),
+        ('approved', 'Одобрено'),
+        ('rejected', 'Отказано'),
+    ]
+    
+    telegram_user = models.ForeignKey(
+        TelegramUser,
+        on_delete=models.CASCADE,
+        verbose_name="Telegram-пользователь"
+    )
+    service_name = models.CharField(
+        max_length=255,
+        verbose_name="Название сервиса"
+    )
+    reason = models.TextField(
+        blank=True,
+        verbose_name="Причина запроса"
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending',
+        verbose_name="Статус"
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата запроса"
+    )
+    processed_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="Дата обработки"
+    )
+    
+    def __str__(self):
+        return f"{self.telegram_user} - {self.service_name} ({self.status})"
+    
+    class Meta:
+        verbose_name = "Запрос доступа"
+        verbose_name_plural = "Запросы доступа"
